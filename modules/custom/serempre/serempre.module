@@ -1,0 +1,107 @@
+<?php
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function serempre_form_user_login_form_alter(&$form, &$form_state, $form_id) {
+  // Agregar una función adicional para submit.
+  $form['#submit'][] = 'serempre_custom_user_login_submit';
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function serempre_user_insert(Drupal\Core\Entity\EntityInterface $entity) {
+  serempre_insertar_usuarios($entity->id(), 'registro');
+}
+
+/**
+ * Additional handler for user_login form submit.
+ */
+function serempre_custom_user_login_submit($form, &$form_state) {
+  serempre_insertar_usuarios(\Drupal::currentUser()->id(), 'login');
+}
+
+/**
+ * Additional handler for user_login form submit.
+ */
+function serempre_insertar_usuarios($uid, $type) {
+  // Guardar datos en la tabla mylogs.
+  $connection = \Drupal::database();
+  $connection->insert('mylogs')->fields(
+    array(
+      'fecha' => date("Y-m-d h:i:sa"),
+      'ip' => getRealIpAddr(),
+      'uid' => $uid,
+      'type' => $type,
+    )
+  )->execute();
+}
+
+/**
+ * Function to obtain the IP address.
+ * Source: https://www.hashbangcode.com/article/get-ip-address-visitor-through-php
+ */
+function getRealIpAddr() {
+  if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+    // Check IP from internet.
+    $ip = $_SERVER['HTTP_CLIENT_IP'];
+  } 
+  elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
+    // Check IP is passed from proxy.
+    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+  } 
+  else {
+    // Get IP address from remote address.
+    $ip = $_SERVER['REMOTE_ADDR'];
+  }
+  
+  return $ip;
+}
+
+/**
+ * Function to execute tasks for each row of the batch.
+ */
+function serempre_batch_agregar_usuario($item, &$context){
+  serempre_insertar_myuser($item['name']);
+  
+  $context['sandbox']['current_item'] = $item;
+  $message = 'Creating ' . $item['name'];
+  $context['message'] = $message;
+  $context['results'][] = $item;
+}
+
+/**
+ * Function to execute when batch is finished.
+ */
+function serempre_batch_agregar_usuario_finished($success, $results, $operations) {
+  $messenger = \Drupal::messenger();
+  
+  if ($success) {
+    $messenger->addMessage(t('@count usuarios procesados.', ['@count' => count($results)]));
+  }
+  else {
+    $error_operation = reset($operations);
+    $messenger->addMessage(
+      t('An error occurred while processing @operation with arguments : @args',
+        [
+          '@operation' => $error_operation[0],
+          '@args' => print_r($error_operation[0], TRUE),
+        ]
+      )
+    );
+  }
+}
+
+/**
+ * Additional handler for user_login form submit.
+ */
+function serempre_insertar_myuser($name) {
+  // Guardar datos en la tabla mylogs.
+  $connection = \Drupal::database();
+  $connection->insert('myusers')->fields(
+    [
+      'nombre' => $name,
+    ]
+  )->execute();
+}

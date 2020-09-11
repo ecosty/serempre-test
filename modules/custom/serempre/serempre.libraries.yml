@@ -1,0 +1,9 @@
+serempre.library:
+  version: 1.x
+  js:
+    js/validation.js: {}
+    js/jquery.validate.min.js: {}
+    js/additional-methods.min.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery

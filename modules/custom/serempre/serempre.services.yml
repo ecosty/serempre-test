@@ -1,0 +1,4 @@
+services:
+  serempre.repository:
+    class: Drupal\serempre\SerempreRepository
+    arguments: ['@database', '@string_translation', '@messenger']

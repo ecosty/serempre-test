@@ -1,0 +1,39 @@
+serempre.registro:
+  path: '/serempre/usuarios/registro'
+  defaults:
+    _title: 'Agregar un usuario'
+    _form: '\Drupal\serempre\Form\SerempreAgregarForm'
+  requirements:
+    _permission: 'registro usuarios'
+
+serempre.consulta:
+  path: '/serempre/usuarios/consulta'
+  defaults:
+    _title: 'Listado de usuarios'
+    _controller: '\Drupal\serempre\Controller\SerempreController::usuarios'
+  requirements:
+    _permission: 'consulta usuarios'
+
+serempre.exportacion:
+  path: '/serempre/usuarios/exportacion'
+  defaults:
+    _title: 'Exportar Usuarios'
+    _form: '\Drupal\serempre\Form\SerempreExportarForm'
+  requirements:
+    _permission: 'importa exporta usuarios'
+
+serempre.importacion:
+  path: '/serempre/usuarios/importacion'
+  defaults:
+    _title: 'Importar Usuarios'
+    _form: '\Drupal\serempre\Form\SerempreImportarForm'
+  requirements:
+    _permission: 'importa exporta usuarios'
+
+serempre.importacionback:
+  path: '/serempre/usuarios/importacionback'
+  defaults:
+    _title: 'Importar Usuarios en Backend'
+    _form: '\Drupal\serempre\Form\SerempreImportarBackForm'
+  requirements:
+    _permission: 'importa exporta usuarios'

@@ -1,0 +1,25 @@
+serempre.registrar:
+  title: Registro de usuarios
+  route_name: serempre.registro
+  weight: 0
+
+serempre.consultar:
+  title: Consulta de usuarios
+  route_name: serempre.consulta
+  weight: 1
+
+serempre.exportar:
+  title: Exportar el listado de usuarios
+  route_name: serempre.exportacion
+  weight: 2
+
+serempre.importar:
+  title: Importar usuarios front
+  route_name: serempre.importacion
+  weight: 3
+
+
+serempre.importarback:
+  title: Importar usuarios back
+  route_name: serempre.importacionback
+  weight: 4

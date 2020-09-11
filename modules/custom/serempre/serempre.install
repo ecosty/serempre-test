@@ -1,0 +1,73 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the serempre module.
+ */
+
+
+/**
+ * Implements hook_schema().
+ *
+ * Defines the database tables used in this module.
+ *
+ * @see hook_schema()
+ *
+ * @ingroup serempre
+ */
+function serempre_schema() {
+  $schema['myusers'] = [
+    'description' => 'Table myusers which stores the name and id of users.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: User ID.',
+      ],
+      'nombre' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'User name.',
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  $schema['mylogs'] = [
+    'description' => 'Table mylogs which registers users information when logged or registered.',
+    'fields' => [
+      'fecha' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Timestamp.',
+      ],
+      'ip' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'IP Address.',
+      ],
+      'uid' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'User ID.',
+      ],
+      'type' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Log Type.',
+      ],
+    ],
+  ];
+
+  return $schema;
+}

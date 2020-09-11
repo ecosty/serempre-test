@@ -1,0 +1,6 @@
+registro usuarios:
+  title: 'Registrar usuarios en tabla myusers'
+consulta usuarios:
+  title: 'Consultar usuarios de la tabla myusers'
+importa exporta usuarios:
+  title: 'Importar o Exportar usuarios a la table myusers'
